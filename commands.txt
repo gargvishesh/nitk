@@ -1,0 +1,52 @@
+//Install Ethereum
+sudo add-apt-repository -y ppa:ethereum/ethereum
+sudo apt-get update
+sudo apt-get install ethereum
+sudo apt-get install solc
+
+//Create data directory
+mkdir eth
+
+*****************************************
+NOTE: Put genesis.json in ./eth directory
+Put bgp.sol in the current directory
+*****************************************
+
+//Initialize Eth
+geth --datadir ./eth init ./eth/genesis.json
+
+//Start geth
+geth --syncmode=fast --cache=1024 --identity mygeth --datadir ./eth --ethash.dagdir ./eth --rpc --rpcaddr 0.0.0.0 --rpcport 8545 --rpccorsdomain "*" --rpcapi "admin,db,eth,debug,miner,net,shh,txpool,personal,web3“ --nodiscover --allow-insecure-unlock
+
+//Attach to command line
+geth attach ./eth/geth.ipc
+
+//Create New Account
+personal.newAccount("12345") 
+
+//Get Balance
+web3.fromWei(web3.eth.getBalance(“<accountNumber>”),"ether")
+
+//Mining
+web3.fromWei(web3.eth.getBalance(“<accountNumber>"), "ether")
+miner.setEtherbase(“<accountNumber>”)
+miner.start(1)
+web3.fromWei(web3.eth.getBalance("<accountNumber>"), "ether")
+
+//Compile the contract
+solc --bin --abi --userdoc --devdoc --add-std --optimize -o ./out --overwrite ./bgp.sol
+
+//Obtain the binary object and ABI 
+sol=$(cat ./out/bgp.bin)
+abi=$(cat ./out/bgp.abi)
+
+//Deploy the contract on the blockchain
+cmd="geth -exec 'personal.unlockAccount(web3.eth.accounts[1], \"12345\", 0)' attach ./eth/geth.ipc" 
+bash -c "$cmd"
+cmd="geth -exec 'web3.eth.sendTransaction({\"from\":web3.eth.accounts[1], \"data\": \"0x${sol}\", \"gas\":  \"0x1000000\"})' attach ./eth/geth.ipc“
+bash -c "$cmd"
+Store trxid 
+cmd="geth -exec 'web3.eth.getTransactionReceipt(\"$txid\").contractAddress' attach ./eth/geth.ipc"
+bash -c "$cmd"
+
+

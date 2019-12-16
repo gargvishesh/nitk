@@ -1,0 +1,15 @@
+{
+  "config": {
+    "chainId": 1530,
+    "homesteadBlock": 0,
+    "eip155Block": 0,
+    "eip158Block": 0
+  },
+  "difficulty" : "0x04",
+  "extraData"  : "",
+  "gasLimit"   : "0xFFFFFFF0",
+  "nonce"      : "0x0000000000c0ffee",
+  "mixhash"    : "0x0000000000000000000000000000000000000000000000000000000000000000",
+  "parentHash" : "0x0000000000000000000000000000000000000000000000000000000000000000",
+  "timestamp"  : "0x00",
+}
