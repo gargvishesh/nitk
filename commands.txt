@@ -1,58 +1,65 @@
-//Install Ethereum
+# Install Ethereum
 sudo add-apt-repository -y ppa:ethereum/ethereum
 sudo apt-get update
 sudo apt-get install ethereum
 sudo apt-get install solc
 
-//Clone nitk git repository
+# Clone nitk git repository
 git clone https://github.com/gargvishesh/nitk.git
 
-//Switch to nitk directory
+# Switch to nitk directory
 cd nitk
 
-//Create data directory
+# Create data directory
 mkdir eth
 
-//Initialize Eth
+# Initialize Eth
 geth --datadir ./eth init ./genesis.json
 
-//Start geth
+# Start geth
 geth --syncmode=fast --cache=1024 --identity mygeth --datadir ./eth --ethash.dagdir ./eth --rpc --rpcaddr 0.0.0.0 --rpcport 8545 --rpccorsdomain "*" --rpcapi "admin,db,eth,debug,miner,net,shh,txpool,personal,web3 " --nodiscover --allow-insecure-unlock
 
-//Attach to command line
+# Attach to command line
 geth attach ./eth/geth.ipc
 
-//Create New Account
+# Create New Account
 personal.newAccount("12345") 
 
-//List Accounts
+# List Accounts
 personal.listAccounts
 
-//Get Balance
+# Get Balance
 web3.fromWei(web3.eth.getBalance(eth.accounts[0]),"ether")
 
-//Unlock account for unlimited duration
+# Unlock account for unlimited duration
 personal.unlockAccount(eth.accounts[0], "12345", 0)
 
-//Mining ***Caution - Only to be done for a short while***
+# Mining ***Caution - Only to be done for a short while***
 miner.setEtherbase(eth.accounts[0])
 web3.fromWei(web3.eth.getBalance(eth.accounts[0]), "ether")
 miner.start(1)
 web3.fromWei(web3.eth.getBalance(eth.accounts[0]), "ether")
 miner.stop()
 
-############################################################################
-###########################  For future reference ##########################
-############################################################################
 
-## //Compile the contract
+# Working with the UI
+
+#URL
+http://remix.ethereum.org/
+
+
+################################################################################
+###########################  Command Line Way - For future reference ###########
+################################################################################
+
+## # Compile the contract
 ## solc --bin --abi --userdoc --devdoc --add-std --optimize -o ./out --overwrite ./bgp.sol
 
-## //Obtain the binary object and ABI 
+## # Obtain the binary object and ABI 
 ## sol=$(cat ./out/bgp.bin)
 ## abi=$(cat ./out/bgp.abi)
 ## 
-## //Deploy the contract on the blockchain
+## # Deploy the contract on the blockchain
 ## cmd="geth -exec 'personal.unlockAccount(web3.eth.accounts[1], \"12345\", 0)' attach ./eth/geth.ipc" 
 ## bash -c "$cmd"
 ## cmd="geth -exec 'web3.eth.sendTransaction({\"from\":web3.eth.accounts[1], \"data\": \"0x${sol}\", \"gas\":  \"0x1000000\"})' attach ./eth/geth.ipc"
@@ -60,6 +67,6 @@ miner.stop()
 ## Store trxid 
 ## cmd="geth -exec 'web3.eth.getTransactionReceipt(\"$txid\").contractAddress' attach ./eth/geth.ipc"
 ## bash -c "$cmd"
-############################################################################
+################################################################################
 
 
