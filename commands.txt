@@ -17,7 +17,7 @@ mkdir eth
 geth --datadir ./eth init ./genesis.json
 
 //Start geth
-geth --syncmode=fast --cache=1024 --identity mygeth --datadir ./eth --ethash.dagdir ./eth --rpc --rpcaddr 0.0.0.0 --rpcport 8545 --rpccorsdomain "*" --rpcapi "admin,db,eth,debug,miner,net,shh,txpool,personal,web3 “ --nodiscover --allow-insecure-unlock
+geth --syncmode=fast --cache=1024 --identity mygeth --datadir ./eth --ethash.dagdir ./eth --rpc --rpcaddr 0.0.0.0 --rpcport 8545 --rpccorsdomain "*" --rpcapi "admin,db,eth,debug,miner,net,shh,txpool,personal,web3 " --nodiscover --allow-insecure-unlock
 
 //Attach to command line
 geth attach ./eth/geth.ipc
@@ -26,11 +26,11 @@ geth attach ./eth/geth.ipc
 personal.newAccount("12345") 
 
 //Get Balance
-web3.fromWei(web3.eth.getBalance(“<accountNumber>”),"ether")
+web3.fromWei(web3.eth.getBalance("<accountNumber>"),"ether")
 
 //Mining
-web3.fromWei(web3.eth.getBalance(“<accountNumber>"), "ether")
-miner.setEtherbase(“<accountNumber>” )
+web3.fromWei(web3.eth.getBalance("<accountNumber>"), "ether")
+miner.setEtherbase("<accountNumber>" )
 miner.start(1)
 web3.fromWei(web3.eth.getBalance("<accountNumber>"), "ether")
 
@@ -44,7 +44,7 @@ abi=$(cat ./out/bgp.abi)
 //Deploy the contract on the blockchain
 cmd="geth -exec 'personal.unlockAccount(web3.eth.accounts[1], \"12345\", 0)' attach ./eth/geth.ipc" 
 bash -c "$cmd"
-cmd="geth -exec 'web3.eth.sendTransaction({\"from\":web3.eth.accounts[1], \"data\": \"0x${sol}\", \"gas\":  \"0x1000000\"})' attach ./eth/geth.ipc“
+cmd="geth -exec 'web3.eth.sendTransaction({\"from\":web3.eth.accounts[1], \"data\": \"0x${sol}\", \"gas\":  \"0x1000000\"})' attach ./eth/geth.ipc"
 bash -c "$cmd"
 Store trxid 
 cmd="geth -exec 'web3.eth.getTransactionReceipt(\"$txid\").contractAddress' attach ./eth/geth.ipc"
