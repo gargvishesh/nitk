@@ -4,19 +4,20 @@ sudo apt-get update
 sudo apt-get install ethereum
 sudo apt-get install solc
 
+//Clone nitk git repository
+git clone https://github.com/gargvishesh/nitk.git
+
+//Switch to nitk directory
+cd nitk
+
 //Create data directory
 mkdir eth
 
-*****************************************
-NOTE: Put genesis.json in ./eth directory
-Put bgp.sol in the current directory
-*****************************************
-
 //Initialize Eth
-geth --datadir ./eth init ./eth/genesis.json
+geth --datadir ./eth init ./genesis.json
 
 //Start geth
-geth --syncmode=fast --cache=1024 --identity mygeth --datadir ./eth --ethash.dagdir ./eth --rpc --rpcaddr 0.0.0.0 --rpcport 8545 --rpccorsdomain "*" --rpcapi "admin,db,eth,debug,miner,net,shh,txpool,personal,web3“ --nodiscover --allow-insecure-unlock
+geth --syncmode=fast --cache=1024 --identity mygeth --datadir ./eth --ethash.dagdir ./eth --rpc --rpcaddr 0.0.0.0 --rpcport 8545 --rpccorsdomain "*" --rpcapi "admin,db,eth,debug,miner,net,shh,txpool,personal,web3 “ --nodiscover --allow-insecure-unlock
 
 //Attach to command line
 geth attach ./eth/geth.ipc
@@ -29,7 +30,7 @@ web3.fromWei(web3.eth.getBalance(“<accountNumber>”),"ether")
 
 //Mining
 web3.fromWei(web3.eth.getBalance(“<accountNumber>"), "ether")
-miner.setEtherbase(“<accountNumber>”)
+miner.setEtherbase(“<accountNumber>” )
 miner.start(1)
 web3.fromWei(web3.eth.getBalance("<accountNumber>"), "ether")
 
