@@ -56,9 +56,15 @@ contract BGP {
         }
         return consensus;
     }
+
     function resetVotes() public{
         registeredGenerals = 0;
     }
+
+    function getVoters() public view returns (address [] memory){
+        return generals;
+    }
+
     function getVotesCount() public view returns (uint8){
         return registeredGenerals;
     }
